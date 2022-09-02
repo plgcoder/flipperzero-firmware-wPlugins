@@ -124,28 +124,28 @@ static void dice_render_callback(Canvas* const canvas, void* ctx) {
             snprintf(state->strings[1], sizeof(state->strings[1]), "%s", eightBall[d1_i]);
         } else if(state->diceSelect == 230) {
             const char* diceOne[] = {
-                "Nibble",
-                "Massage",
-                "Touch",
-                "Caress",
-                "Pet",
-                "Fondle",
-                "Suck",
-                "Lick",
-                "Blow",
-                "Kiss",
-                "???"};
+            //    "Nibble",
+            //    "Massage",
+            //    "Touch",
+            //    "Caress",
+            //    "Pet",
+            //    "Fondle",
+            //    "__ck",
+            //    "__ck",
+            //    "__ow",
+            //    "Kiss",
+            /*    "???"*/ };
             const char* diceTwo[] = {
-                "Navel",
-                "Ears",
-                "Lips",
-                "Neck",
-                "Hand",
-                "Thigh",
-                "Nipple",
-                "Breasts",
-                "???",
-                "Genitals"};
+            //    "Navel",
+            //    "Ears",
+            //    "Lips",
+            //    "Neck",
+            //    "Hand",
+            //    "Thigh",
+            //    "___ple",
+            //    "___asts",
+            //    "???",
+            /*    "____tals"*/ };
             state->diceRoll =
                 ((rand() % state->diceSelect) + 1); // JUST TO GET IT GOING? AND FIX BUG
             snprintf(state->diceType[0], sizeof(state->diceType[0]), "%s", "SEX?");
