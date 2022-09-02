@@ -475,11 +475,11 @@ int32_t dice_app(void* p) {
                         } else if(plugin_state->diceSelect == 20) {
                             plugin_state->diceSelect = 100;
                         } else if(plugin_state->diceSelect == 100) {
-                            if(plugin_state->desktop_settings->is_dumbmode) {
+                            //if(plugin_state->desktop_settings->is_dumbmode) {
                                 plugin_state->diceSelect = 231;
-                            } else {
-                                plugin_state->diceSelect = 230;
-                            }
+                            //} else {
+                            //    plugin_state->diceSelect = 230;
+                            //}
                         } else if(plugin_state->diceSelect == 230) {
                             plugin_state->playerOneScore = 0;
                             plugin_state->playerTwoScore = 0;
