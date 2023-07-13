@@ -15,21 +15,21 @@ void lfrfid_scene_setpw_t5577_confirm_on_enter(void* context) {
     //DialogMessage* message = dialog_message_alloc();
     DialogMessageButton dialog_result;
 
-    dialog_result = lfrfid_message_dialog(context, "T5577 write settings", "Set tag configuration block read-only? If unsure answer no.", "No", NULL, "Yes");
-    if (dialog_result == DialogMessageButtonRight)
+    dialog_result = lfrfid_message_dialog(context, "T5577 write settings", "Set tag configuration block read-only? If unsure answer no.", "Yes", NULL, "No");
+    if (dialog_result == DialogMessageButtonLeft)
 	app->extra_options |= LfRfidSetConfigurationLockBit;
     else
 	app->extra_options &= ~LfRfidSetConfigurationLockBit;
 
 
-    dialog_result = lfrfid_message_dialog(context, "T5577 write settings", " Set password block read-only? If unsure answer no.", "No", NULL, "Yes");
-    if (dialog_result == DialogMessageButtonRight)
+    dialog_result = lfrfid_message_dialog(context, "T5577 write settings", " Set password block read-only? If unsure answer no.", "Yes", NULL, "No");
+    if (dialog_result == DialogMessageButtonLeft)
 	app->extra_options |= LfRfidSetPasswordLockBit;
     else
 	app->extra_options &= ~LfRfidSetPasswordLockBit;
 
-    dialog_result = lfrfid_message_dialog(context, "T5577 write settings", "Set master key 6? Disables test-mode access. Some t5577 clones go read-only. If unsure answer no.", "No", NULL, "Yes");
-    if (dialog_result == DialogMessageButtonRight)
+    dialog_result = lfrfid_message_dialog(context, "T5577 write settings", "Set master key 6? Disables test-mode access. Some t5577 clones go read-only. If unsure answer no.", "Yes", NULL, "No");
+    if (dialog_result == DialogMessageButtonLeft)
 	app->extra_options |= LfRfidSetMasterKeyDisableTestMode;
     else
 	app->extra_options &= ~LfRfidSetMasterKeyDisableTestMode;

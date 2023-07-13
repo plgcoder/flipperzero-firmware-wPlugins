@@ -13,7 +13,7 @@ static void lfrfid_wipe_t5577_do(LfRfid* app) {
     //uint32_t password = 0;
     //bool testmode = app->extra_options & LfRfidTestModeAccess; 
 
-    popup_set_header(popup, "Wiping data", 102, 10, AlignCenter, AlignCenter);
+    popup_set_header(popup, "Wiping\ndata", 102, 10, AlignCenter, AlignCenter);
     //popup_set_icon(popup, 0, 3, &I_RFIDDolphinSend_97x61);
     popup_set_text(popup, curr_buf, /*92*/66, 33, AlignCenter, AlignCenter);
     view_dispatcher_switch_to_view(app->view_dispatcher, LfRfidViewPopup);
@@ -21,6 +21,10 @@ static void lfrfid_wipe_t5577_do(LfRfid* app) {
     furi_delay_ms(1000);
     notification_message(app->notifications, &sequence_blink_start_magenta);
     furi_delay_ms(500);
+
+    t5577_test_mode_reset( LFRFID_T5577_BITRATE_RF_64 |
+			   LFRFID_T5577_MODULATION_MANCHESTER |
+                           (2 << LFRFID_T5577_MAXBLOCK_SHIFT) );
 
     for(uint8_t block = 0; block < 8; block++) {
 	if (!block) {	// page 0 block 0 is configuration data, default 0x00148040

@@ -200,3 +200,40 @@ void t5577_write_page_block_simple_with_start_and_stop(
     FURI_CRITICAL_EXIT();
     t5577_stop();
 }
+
+void t5577_test_mode_reset(uint32_t conf) {
+    // does work? VERIFY
+
+    t5577_start();
+    FURI_CRITICAL_ENTER();
+    furi_delay_us(T5577_TIMING_WAIT_TIME * 8);
+
+    // start gap
+    t5577_write_gap(T5577_TIMING_START_GAP);
+
+    // opcode for test mode access!
+    t5577_write_opcode(T5577_OPCODE_TESTMODE);
+
+    // lock bit
+    t5577_write_bit(0);
+
+    // data
+    for(uint8_t i = 0; i < 32; i++) {
+        t5577_write_bit((conf >> (31 - i)) & 1);
+    }
+
+    uint16_t block = 0;
+    // block address
+    t5577_write_bit((block >> 2) & 1);
+    t5577_write_bit((block >> 1) & 1);
+    t5577_write_bit((block >> 0) & 1);
+
+    furi_delay_us(T5577_TIMING_PROGRAM * 8);
+
+    furi_delay_us(T5577_TIMING_WAIT_TIME * 8);
+    t5577_write_reset();
+
+    FURI_CRITICAL_EXIT();
+    t5577_stop();
+}
+

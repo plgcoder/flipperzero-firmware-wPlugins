@@ -31,8 +31,9 @@
 #include <lfrfid/protocols/lfrfid_protocols.h>
 #include <lfrfid/lfrfid_worker.h>
 
+// needed in firmware internal app version
 #include <lfrfid/scenes/lfrfid_scene.h>
-//
+// needed in external FAP version
 //#include "scenes/lfrfid_scene.h"
 
 #include <assets_icons.h>

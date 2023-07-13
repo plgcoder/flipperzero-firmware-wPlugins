@@ -11,7 +11,7 @@
 static void lfrfid_setpw_t5577_password_and_config_to_EM(LfRfid* app) {
     Popup* popup = app->popup;
     //char curr_buf[32] = {};
-    char curr_buf[40] = {};
+    char curr_buf[41] = {};
     //TODO: use .txt file in resources for passwords.
 
     //0b00000000000101001000000001000000; //no pwd&aor config block   12,14,17,26  // 0x148040
@@ -57,7 +57,12 @@ static void lfrfid_setpw_t5577_password_and_config_to_EM(LfRfid* app) {
     if (app->extra_options & LfRfidDisablePasswordMode)
 	em_config_block_data &= ~(LFRFID_T5577_PWD); 
 
-    snprintf(curr_buf, sizeof(curr_buf), "Setting configuration block:\n%08lX", em_config_block_data);
+    //snprintf(curr_buf, sizeof(curr_buf), "Setting configuration block:\n%08lX", em_config_block_data);
+    snprintf(curr_buf, sizeof(curr_buf), "Setting configuration block:\n%02X %02X %02X %02X",
+            (uint16_t)(em_config_block_data>>24), 
+            (uint16_t)(em_config_block_data>>16 & 0xFF), 
+            (uint16_t)(em_config_block_data>>8 & 0xFF),
+            (uint16_t)(em_config_block_data & 0xFF) );
     view_dispatcher_switch_to_view(app->view_dispatcher, LfRfidViewPopup); //needed?
     // DEBUG delay
     furi_delay_ms(3000);

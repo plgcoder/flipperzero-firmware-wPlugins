@@ -71,7 +71,6 @@ void lfrfid_scene_extra_actions_on_enter(void* context) {
 
 bool lfrfid_scene_extra_actions_on_event(void* context, SceneManagerEvent event) {
     LfRfid* app = context;
-    SceneManager* scene_manager = app->scene_manager;
     bool consumed = false;
 
     if(event.type == SceneManagerEventTypeCustom) {

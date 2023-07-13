@@ -64,12 +64,12 @@ void lfrfid_scene_write_block_t5577_confirm_on_enter(void* context) {
 
     message = dialog_message_alloc();
     dialog_message_set_header(message, "T5577 write settings", 0, 0, AlignLeft, AlignTop);
-    dialog_message_set_buttons(message, "No", NULL, "Yes");
+    dialog_message_set_buttons(message, "Yes", NULL, "No");
     dialog_message_set_text(message, " Set block read-only? If unsure answer no.", SCREEN_WIDTH_CENTER,
 	SCREEN_HEIGHT_CENTER, AlignCenter, AlignCenter);
     dialog_result = dialog_message_show(app->dialogs, message);
     dialog_message_free(message);
-    if (dialog_result == DialogMessageButtonRight)
+    if (dialog_result == DialogMessageButtonLeft)
 	app->extra_options |= LfRfidWriteBlockLockBit;
     else
 	app->extra_options &= ~LfRfidWriteBlockLockBit;
