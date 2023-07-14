@@ -5,6 +5,7 @@ struct ProtocolDict {
     const ProtocolBase** base;
     size_t count;
     void** data;
+    ProtocolId current_read_protocol;
 };
 
 ProtocolDict* protocol_dict_alloc(const ProtocolBase** protocols, size_t count) {
@@ -12,6 +13,7 @@ ProtocolDict* protocol_dict_alloc(const ProtocolBase** protocols, size_t count) 
     dict->base = protocols;
     dict->count = count;
     dict->data = malloc(sizeof(void*) * dict->count);
+    dict->current_read_protocol = PROTOCOL_NO;
 
     for(size_t i = 0; i < dict->count; i++) {
         dict->data[i] = dict->base[i]->alloc();
@@ -83,13 +85,16 @@ const char* protocol_dict_get_manufacturer(ProtocolDict* dict, size_t protocol_i
 }
 
 void protocol_dict_decoders_start(ProtocolDict* dict) {
+    dict->current_read_protocol = PROTOCOL_NO;
     for(size_t i = 0; i < dict->count; i++) {
         ProtocolDecoderStart fn = dict->base[i]->decoder.start;
 
         if(fn) {
+            dict->current_read_protocol = i;
             fn(dict->data[i]);
         }
     }
+    dict->current_read_protocol = PROTOCOL_NO;
 }
 
 uint32_t protocol_dict_get_features(ProtocolDict* dict, size_t protocol_index) {
@@ -100,11 +105,13 @@ uint32_t protocol_dict_get_features(ProtocolDict* dict, size_t protocol_index) {
 ProtocolId protocol_dict_decoders_feed(ProtocolDict* dict, bool level, uint32_t duration) {
     bool done = false;
     ProtocolId ready_protocol_id = PROTOCOL_NO;
+    dict->current_read_protocol = PROTOCOL_NO;
 
     for(size_t i = 0; i < dict->count; i++) {
         ProtocolDecoderFeed fn = dict->base[i]->decoder.feed;
 
         if(fn) {
+            dict->current_read_protocol = i;
             if(fn(dict->data[i], level, duration)) {
                 if(!done) {
                     ready_protocol_id = i;
@@ -114,6 +121,7 @@ ProtocolId protocol_dict_decoders_feed(ProtocolDict* dict, bool level, uint32_t 
         }
     }
 
+    dict->current_read_protocol = ready_protocol_id;
     return ready_protocol_id;
 }
 
@@ -124,6 +132,7 @@ ProtocolId protocol_dict_decoders_feed_by_feature(
     uint32_t duration) {
     bool done = false;
     ProtocolId ready_protocol_id = PROTOCOL_NO;
+    dict->current_read_protocol = PROTOCOL_NO;
 
     for(size_t i = 0; i < dict->count; i++) {
         uint32_t features = dict->base[i]->features;
@@ -131,6 +140,7 @@ ProtocolId protocol_dict_decoders_feed_by_feature(
             ProtocolDecoderFeed fn = dict->base[i]->decoder.feed;
 
             if(fn) {
+                dict->current_read_protocol = i;
                 if(fn(dict->data[i], level, duration)) {
                     if(!done) {
                         ready_protocol_id = i;
@@ -141,6 +151,7 @@ ProtocolId protocol_dict_decoders_feed_by_feature(
         }
     }
 
+    dict->current_read_protocol = ready_protocol_id;
     return ready_protocol_id;
 }
 
@@ -153,7 +164,8 @@ ProtocolId protocol_dict_decoders_feed_by_id(
 
     ProtocolId ready_protocol_id = PROTOCOL_NO;
     ProtocolDecoderFeed fn = dict->base[protocol_index]->decoder.feed;
-
+    dict->current_read_protocol = protocol_index;
+    
     if(fn) {
         if(fn(dict->data[protocol_index], level, duration)) {
             ready_protocol_id = protocol_index;
@@ -223,4 +235,8 @@ bool protocol_dict_get_write_data(ProtocolDict* dict, size_t protocol_index, voi
 
     furi_assert(fn);
     return fn(dict->data[protocol_index], data);
+}
+
+ProtocolId protocol_dict_get_current_read_protocol(ProtocolDict* dict) {
+    return dict->current_read_protocol;    
 }

@@ -51,9 +51,9 @@ void lfrfid_scene_read_on_enter(void* context) {
     LfRfid* app = context;
 
     if(app->read_type == LFRFIDWorkerReadTypePSKOnly) {
-        lfrfid_view_read_set_read_mode(app->read_view, LfRfidReadPskOnly);
+        lfrfid_view_read_set_read_mode(app->read_view, LfRfidReadPskOnly, app->dict, app->storage);
     } else if(app->read_type == LFRFIDWorkerReadTypeASKOnly) {
-        lfrfid_view_read_set_read_mode(app->read_view, LfRfidReadAskOnly);
+        lfrfid_view_read_set_read_mode(app->read_view, LfRfidReadAskOnly, app->dict, app->storage);
         // } else if(app->read_type == LFRFIDWorkerReadTypeRTFOnly) {
         // lfrfid_view_read_set_read_state(app->read_view, LfRfidReadScanning);
         // lfrfid_view_read_set_read_mode(app->read_view, LfRfidReadRtfOnly);
@@ -92,12 +92,12 @@ bool lfrfid_scene_read_on_event(void* context, SceneManagerEvent event) {
             consumed = true;
         } else if(event.event == LfRfidEventReadStartPSK) {
             if(app->read_type == LFRFIDWorkerReadTypeAuto) {
-                lfrfid_view_read_set_read_mode(app->read_view, LfRfidReadPsk);
+                lfrfid_view_read_set_read_mode(app->read_view, LfRfidReadPsk, app->dict, app->storage);
             }
             consumed = true;
         } else if(event.event == LfRfidEventReadStartASK) {
             if(app->read_type == LFRFIDWorkerReadTypeAuto) {
-                lfrfid_view_read_set_read_mode(app->read_view, LfRfidReadAsk);
+                lfrfid_view_read_set_read_mode(app->read_view, LfRfidReadAsk, app->dict, app->storage);
             }
             consumed = true;
             // } else if(event.event == LfRfidEventReadStartRTF) {

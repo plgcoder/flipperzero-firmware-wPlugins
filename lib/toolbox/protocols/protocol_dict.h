@@ -68,6 +68,8 @@ ProtocolId protocol_dict_get_protocol_by_name(ProtocolDict* dict, const char* na
 
 bool protocol_dict_get_write_data(ProtocolDict* dict, size_t protocol_index, void* data);
 
+ProtocolId protocol_dict_get_current_read_protocol(ProtocolDict* dict);
+
 #ifdef __cplusplus
 }
 #endif

@@ -1,5 +1,5 @@
 entry,status,name,type,params
-Version,+,30.2,,
+Version,+,30.3,,
 Header,+,applications/main/fap_loader/fap_loader_app.h,,
 Header,+,applications/main/subghz/helpers/subghz_txrx.h,,
 Header,+,applications/services/bt/bt_service/bt.h,,
@@ -2347,6 +2347,7 @@ Function,+,protocol_dict_free,void,ProtocolDict*
 Function,+,protocol_dict_get_data,void,"ProtocolDict*, size_t, uint8_t*, size_t"
 Function,+,protocol_dict_get_data_size,size_t,"ProtocolDict*, size_t"
 Function,+,protocol_dict_get_features,uint32_t,"ProtocolDict*, size_t"
+Function,+,protocol_dict_get_current_read_protocol,ProtocolId,ProtocolDict*
 Function,+,protocol_dict_get_manufacturer,const char*,"ProtocolDict*, size_t"
 Function,+,protocol_dict_get_max_data_size,size_t,ProtocolDict*
 Function,+,protocol_dict_get_name,const char*,"ProtocolDict*, size_t"
