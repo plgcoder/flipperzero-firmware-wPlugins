@@ -34,7 +34,7 @@ bool lfrfid_scene_enter_hex_on_event(void* context, SceneManagerEvent event) {
     if(event.type == SceneManagerEventTypeCustom) {
         if(event.event == LfRfidEventNext) {
             consumed = true;
-	    /* if (app->extra_options & LfRfidReadBlockMode) {
+	    if (app->extra_options & LfRfidReadBlockMode) {
 		scene_manager_next_scene(scene_manager, LfRfidSceneReadBlockT5577Confirm);
 	    } else if (app->extra_options & LfRfidWriteBlockMode) {
 		if (app->setting_hex == LfRfidSettingCurrentPassword) {

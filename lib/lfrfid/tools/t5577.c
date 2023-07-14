@@ -201,6 +201,55 @@ void t5577_write_page_block_simple_with_start_and_stop(
     t5577_stop();
 }
 
+
+// FIX --refactor
+void t5577_send_read_command(
+    uint8_t page,
+    uint8_t block,
+    bool use_password,
+    uint32_t password) {
+
+    t5577_start();
+    FURI_CRITICAL_ENTER();
+    furi_delay_us(T5577_TIMING_WAIT_TIME * 8);
+
+    // start gap
+    t5577_write_gap(T5577_TIMING_START_GAP);
+
+    // opcode for page 0 or 1
+    if(!page)
+	t5577_write_opcode(T5577_OPCODE_PAGE_0);
+    else
+	t5577_write_opcode(T5577_OPCODE_PAGE_1);
+
+    // password
+    if(use_password) {
+        for(uint8_t i = 0; i < 32; i++) {
+            t5577_write_bit((password >> (31 - i)) & 1);
+        }
+    }
+
+    // Always zero
+    t5577_write_bit(0);
+
+    // data
+    //for(uint8_t i = 0; i < 32; i++) {
+    //    write_bit(t55xxtiming, (data >> (31 - i)) & 1);
+    //}
+
+    // block address
+    t5577_write_bit((block >> 2) & 1);
+    t5577_write_bit((block >> 1) & 1);
+    t5577_write_bit((block >> 0) & 1);
+
+    //furi_delay_us(t55xxtiming->program * 8);
+    //furi_delay_us(t55xxtiming->wait_time * 8);
+    
+    //t5577_write_reset();
+    FURI_CRITICAL_EXIT();
+    t5577_stop();
+}
+
 void t5577_test_mode_reset(uint32_t conf) {
     // does work? VERIFY
 

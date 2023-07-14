@@ -146,8 +146,8 @@ struct LfRfid {
     LfRfidSettingHex setting_hex;
     uint8_t write_page;
     uint8_t write_block;
-    //uint8_t read_page;
-    //uint8_t read_block;
+    uint8_t read_page;
+    uint8_t read_block;
 };
 
 typedef enum {

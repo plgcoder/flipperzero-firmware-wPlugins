@@ -59,6 +59,8 @@ void t5577_write_page_block_pass_with_start_and_stop(uint8_t page, uint8_t block
 
 void t5577_write_page_block_simple_with_start_and_stop(uint8_t page, uint8_t block, bool lock_bit, uint32_t data/*, bool testmode*/);
 
+void t5577_send_read_command(uint8_t page, uint8_t block, bool use_password, uint32_t password);
+
 void t5577_test_mode_reset(uint32_t configuration);
 
 #ifdef __cplusplus
